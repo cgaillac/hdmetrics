@@ -10,6 +10,12 @@ library("MASS")
 library("mnormt")
 library(hdm)
 library(AER)
+library(car)
+update.packages("Rcpp")
+
+
+
+
 ### Simulation parameters
 set.seed(13571113)
 p_x = 200 ## number of controls
@@ -22,7 +28,7 @@ split = runif(n)
 cvgroup = as.numeric(cut(split,quantile(split,probs = seq(0, 1, 1/K)),include.lowest = T))  
 
 ##number of MC replications
-MC =1000
+MC =2000
 Results = matrix(ncol=3, nrow=MC)
 
 out = NULL
@@ -126,9 +132,9 @@ for (kk in 1:MC){
  
   ### METHOD 0: selection, alternative (Non-orthogonal)
   ## select all the controls selected by the two Lasso
-  sel = (abs(rD_x$coefficients[2:(dim(x)[2]+1)])> 10^(-6))*1 + (rY_x$coefficients[2:(dim(x)[2]+1)]> 10^(-6))*1
+  sel = (abs(rD_xz$coefficients[(2+dim(z)[2]):(1+dim(x)[2]+dim(z)[2])])> 10^(-6))*1 + (rY_x$coefficients[2:(dim(x)[2]+1)]> 10^(-6))*1
   sel[sel ==2] <- 1 
-  sel_z = (rD_x$coefficients[(2+dim(x)[2]):(1+dim(x)[2]+dim(z)[2])] > 10^(-6))*1 
+  sel_z = (rD_xz$coefficients[2:(dim(z)[2])] > 10^(-6))*1 
   ## Do TSLS 
   x_sel = x[,sel==1]
   z_sel = z[,sel_z==1]
@@ -205,7 +211,7 @@ for (kk in 1:MC){
   outK1[,2] <- outK1[,2] +(  outK1[,1] -   coef1  )^2
   outKK2 <-  rbind(outKK2,c(coef1, mean(  outK1[,2]),coef1/mean(  outK1[,2])))
  
- 
+ cat(paste0("iteration", kk , "\n"))
 }
 
 
