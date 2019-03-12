@@ -300,48 +300,7 @@ stdev=1
 grid.arrange(get.plot(data_res,1,"Naive", 1), get.plot(data_res,2,"Immunized",1), get.plot(data_res,3,"Oracle",1), ncol=3)
 
 grid.arrange(get.plot(data_res,4,"Cross-fitted med.",1),get.plot(data_res,5,"Cross-fitted mean", 1), ncol=2)
-
-
 ###### ##### 
-
-
-
-library(BLPestimatoR)
-
-
-
-library(xtable)
-
-
-table(out)
-
-
-
-
-
-###### 
-install.packages("Rmosek", type="source")
-
-
-library(devtools)
-install_github("cran/Rmosek")
-install_github("cran/hdm")
-
-libra
-install.packages('C:/Users/gaillac/Downloads/hdm_0.2.3.tar.gz', repos = NULL, type="source")
-install.packages('C:/Users/gaillac/Downloads/Rmosek_1.2.5.1.tar.gz', repos = NULL, type="source")
-
-install.packages("gpuR")
-
-install_github("cdeterman/gpuR")
-devtools::install_github("cdeterman/RViennaCL")
-library("gpuR")
-# verify you have valid GPUs
-detectGPUs()
-set.seed(123)
-gpuA <- gpuMatrix(rnorm(16), nrow=4, ncol=4)
-gpuB <- gpuA %*% gpuA
-
 
 
 
